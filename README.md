@@ -20,20 +20,37 @@ Set-ExecutionPolicy -Scope Process Bypass
 app/                 Streamlit 과제용 분석 + 업무담당자 콘솔
 backend/             순차 모델 실행, score fusion, ROI 판정, 결과 저장
 models/              TruFor/FUSED/Recapture 실행 진입점과 폴백
-vendor/              TruFor·FUSED 공식 저장소
-downloads/           Recapture DINOv2 base backbone
+vendor/              TruFor·FUSED 공식 저장소 (FUSED는 로컬 수정본 포함)
+downloads/           Recapture DINOv2 base backbone (저장소 미포함, 별도 배치)
 training/            501세트 규칙 기반 FUSED 학습 파이프라인
 contracts/           모델 공통 JSON 입출력 계약
 config/              런타임 설정
 scripts/             설치·실행·점검·패키징 스크립트
 tests/               핵심 로직 테스트
 dist/                팀 공유용 브라우저 데모
-weights/             가중치 배치 위치와 상태 명세
+weights/             가중치 배치 위치와 상태 명세 (가중치 파일은 저장소 미포함)
 ```
 
 ## 3. 가중치에 관한 중요한 사실
 
-사용자가 제공한 `models.zip`의 체크포인트를 `weights/`에 반영했습니다. `scripts/check_weights.py`는 **파일 존재**와 **공식 추론 실행 가능 상태**를 따로 검사합니다.
+> **GitHub 저장소에는 모델 가중치가 포함되어 있지 않습니다.** GitHub의 100MB 파일 제한 때문에
+> `*.pth`, `*.pth.tar`, `*.pt`, `*.safetensors`, `*.ckpt`, `*.bin`, `*.onnx` 파일과 `downloads/` 폴더는
+> `.gitignore`로 제외했습니다. 클론 후 팀 공유 `models.zip`(또는 별도 전달된 파일)에서 아래 경로에 직접 배치하세요.
+
+| 배치 경로 | 용도 | 크기 |
+|---|---|---|
+| `weights/trufor/finetuned/best.pth.tar` | TruFor 파인튜닝 체크포인트 | 약 275MB |
+| `weights/trufor/trufor.pth.tar` | TruFor 원본 체크포인트 | 약 269MB |
+| `weights/fused/finetuned/latest.pth` | FUSED 파인튜닝 체크포인트 | 약 305MB |
+| `weights/fused/fused_opensdi.pth` | FUSED 기본(OpenSDI) 체크포인트 | 약 305MB |
+| `weights/recapture/best_screen_detector_backbone.pt` | Recapture backbone 마지막 2개 layer | 약 54MB |
+| `weights/recapture/best_screen_detector_mlp.pt` | Recapture MLP head | 약 3MB |
+| `downloads/recapture_dinov2/dinov2-with-registers-base/` | DINOv2-with-registers-base (`config.json`, `model.safetensors`) — Hugging Face `facebook/dinov2-with-registers-base` | 약 330MB |
+| `vendor/trufor/TruFor_train_test/pretrained_models/segformers/mit_b2.pth` | TruFor 학습용 SegFormer 사전학습 가중치 (학습 시에만 필요) | 약 94MB |
+
+파일별 SHA-256은 `weights/manifest.json`에 있습니다. 배치 후 `scripts/check_weights.py`로 확인하세요.
+
+`scripts/check_weights.py`는 **파일 존재**와 **공식 추론 실행 가능 상태**를 따로 검사합니다.
 
 | 모델 | 기본 경로 | 가중치가 없을 때 |
 |---|---|---|
@@ -41,7 +58,7 @@ weights/             가중치 배치 위치와 상태 명세
 | FUSED | `weights/fused/finetuned/latest.pth` | 공식 `eval.opensdi` 구현·CUDA가 필요 |
 | Recapture | `weights/recapture/best_screen_detector_*.pt` | DINOv2 base backbone·CUDA가 없으면 FFT 폴백 |
 
-공식 TruFor 코드, 공식 FUSED 코드, Recapture용 DINOv2 base backbone도 프로젝트에 포함했습니다. 따라서 소스·체크포인트 자산은 모두 준비된 상태입니다. 실제 공식 추론에는 모델별 Python 의존성과 CUDA 환경이 추가로 필요합니다. 폴백 결과는 JSON의 `meta.backend`와 `meta.is_official_model=false`에 표시되어 실제 모델 결과와 혼동되지 않습니다.
+공식 TruFor 코드와 공식 FUSED 코드(로컬 수정 포함)는 `vendor/`에 일반 파일로 포함되어 있습니다. 위 가중치를 배치하면 소스·체크포인트 자산이 모두 준비됩니다. 실제 공식 추론에는 모델별 Python 의존성과 CUDA 환경이 추가로 필요합니다. 폴백 결과는 JSON의 `meta.backend`와 `meta.is_official_model=false`에 표시되어 실제 모델 결과와 혼동되지 않습니다.
 
 ## 4. FUSED 30-epoch 파인튜닝 (WSL 권장)
 
