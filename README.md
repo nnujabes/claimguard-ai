@@ -290,10 +290,10 @@ downloads/    Recapture DINOv2 backbone (미포함, 별도 배치)
 |---|---|---|---|
 | 한병준 (팀장) | AI 생성·리캡처 탐지, TruFor 파인튜닝·웹 화면(공동) | Recapture(모아레) 모델 선정·연동, TruFor 파인튜닝 체크포인트, 웹 화면 | `models/recapture/`, `models/trufor/`, `dist/` |
 | 박하영 | 조작 이미지 생성, FUSED 모델, 웹 화면(공동) | AI 편집 이미지·마스크 생성, FUSED 파인튜닝, 웹 화면 | `models/fused/`, `training/`, `weights/fused/`, `dist/` |
-| **조혁준** | **추론 경량화, 학습 데이터 구축, TruFor, 웹 화면** | 상주 프로세스 추론 게이트웨이, 데이터셋 구조·분할, TruFor 파인튜닝 체크포인트(한병준과 공동), 모델별 독립 환경, 웹 화면(한병준·박하영과 공동) | `backend/model_gateway.py`, `models/*/adapter/`, `scripts/prepare_fused_dataset.py`, `models/trufor/`, `MODEL_SETUP.md`, `dist/`, `app/` |
-| 김병수 | 웹 화면, 모델 연동 검증 | 고객·내부 분석·심사 담당자 화면, 모델 결과 연동 검증 | `dist/`, `app/` |
+| **조혁준** | **추론 경량화, 학습 데이터 구축, TruFor** | 상주 프로세스 추론 게이트웨이, 데이터셋 구조·분할, TruFor 파인튜닝 체크포인트(한병준과 공동), 모델별 독립 환경 | `backend/model_gateway.py`, `models/*/adapter/`, `scripts/prepare_fused_dataset.py`, `models/trufor/`, `MODEL_SETUP.md` |
+| 김병수 | 웹 화면(한병준·박하영과 공동), 모델 연동 검증 | 고객·내부 분석·심사 담당자 화면, 모델 결과 연동 검증 | `dist/`, `app/` |
 
-### 조혁준 — 추론 경량화 · 데이터 구축 · TruFor · 웹 화면
+### 조혁준 — 추론 경량화 · 데이터 구축 · TruFor
 
 **1. 추론 속도 개선: 1장당 약 18초 → 5초 이내** (`backend/model_gateway.py`, `models/*/adapter/infer.py`)
 
@@ -325,11 +325,6 @@ downloads/    Recapture DINOv2 backbone (미포함, 별도 배치)
 - 세 모델의 의존성이 서로 충돌합니다(TruFor: Python 3.8 · torch 1.11 / FUSED·Recapture: Python 3.11 · torch 2.9).
 - 모델마다 독립 venv를 만들고, 앱은 모델을 import하지 않고 subprocess로 호출하도록 분리했습니다. 모델 간 입출력은 공통 JSON 계약(`contracts/model_io_schema.json`)으로 맞췄습니다.
 
-**5. 웹 화면 (한병준·박하영과 공동)** (`dist/`, `app/streamlit_app.py`)
-
-- 모델 점수만 보여주지 않고 실제 업무 흐름에 맞춰 화면을 **고객 접수 → 내부 분석 → 심사 담당자 심사** 3단계로 나눴습니다.
-- 심사 담당자 화면: 청구 목록·필터, 이미지별 원본/FUSED 히트맵, 모델별 점수와 임계값 비교, ROI 임계값 설정
-- `dist/`의 웹 UI를 Streamlit 양방향 컴포넌트로 연결해, 화면에서 분석을 시작하면 Python 백엔드가 세 모델을 순차 실행하고 결과를 돌려줍니다.
 
 ### 진행 일정 (10일)
 
