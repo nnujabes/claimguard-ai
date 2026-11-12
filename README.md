@@ -288,9 +288,9 @@ downloads/    Recapture DINOv2 backbone (미포함, 별도 배치)
 
 | 팀원 | 담당 | 주요 결과물 | 서비스에 쓰인 곳 |
 |---|---|---|---|
-| 한병준 (팀장) | AI 생성·리캡처 탐지 | Recapture(모아레) 모델 선정·연동 | `models/recapture/` |
+| 한병준 (팀장) | AI 생성·리캡처 탐지, TruFor 파인튜닝(조혁준과 공동) | Recapture(모아레) 모델 선정·연동, TruFor 파인튜닝 체크포인트 | `models/recapture/`, `models/trufor/` |
 | 박하영 | 조작 이미지 생성, FUSED 모델 | AI 편집 이미지·마스크 생성, FUSED 파인튜닝 | `models/fused/`, `training/`, `weights/fused/` |
-| **조혁준** | **추론 경량화, 학습 데이터 구축, TruFor** | 상주 프로세스 추론 게이트웨이, 데이터셋 구조·분할, TruFor 파인튜닝 체크포인트, 모델별 독립 환경 | `backend/model_gateway.py`, `models/*/adapter/`, `scripts/prepare_fused_dataset.py`, `models/trufor/`, `MODEL_SETUP.md` |
+| **조혁준** | **추론 경량화, 학습 데이터 구축, TruFor** | 상주 프로세스 추론 게이트웨이, 데이터셋 구조·분할, TruFor 파인튜닝 체크포인트(한병준과 공동), 모델별 독립 환경 | `backend/model_gateway.py`, `models/*/adapter/`, `scripts/prepare_fused_dataset.py`, `models/trufor/`, `MODEL_SETUP.md` |
 | 김병수 | 웹 화면, 모델 연동 검증 | 고객·내부 분석·심사 담당자 화면, 모델 결과 연동 검증 | `dist/`, `app/` |
 
 ### 조혁준 — 추론 경량화 · 데이터 구축 · TruFor
@@ -312,9 +312,9 @@ downloads/    Recapture DINOv2 backbone (미포함, 별도 배치)
 - 한 원본에서 여러 파생본이 나와 데이터 누수 위험이 있었습니다. 원본을 **dHash로 그룹화**해 같은 그룹이 같은 split에 들어가도록 Train/Val/Test를 80/10/10으로 나눴습니다.
 - FUSED와 TruFor가 같은 데이터셋을 쓰고 모델별 매니페스트로만 변환하도록 해, 두 모델의 학습 조건을 맞췄습니다.
 
-**3. TruFor 파인튜닝 · 검증** (`models/trufor/`, `weights/trufor/finetuned/`)
+**3. TruFor 파인튜닝 · 검증 (한병준과 공동)** (`models/trufor/`, `weights/trufor/finetuned/`)
 
-- 1,503장으로 30 epoch 파인튜닝했습니다. backbone(NP++ · MiT-B2)은 동결하고 Localization · Confidence · Detection head만 학습했습니다(SGD, lr 0.001, batch 2).
+- 한병준과 함께 1,503장으로 30 epoch 파인튜닝했습니다. backbone(NP++ · MiT-B2)은 동결하고 Localization · Confidence · Detection head만 학습했습니다(SGD, lr 0.001, batch 2).
 - 검증셋 기준 Epoch 4를 best checkpoint로 골랐습니다.
   - Localization F1 **0.28 → 0.99** (+0.71)
   - Detection AUC **0.76 → 0.99** (+0.23)
