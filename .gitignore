@@ -1,0 +1,23 @@
+.venv/
+.venvs/
+__pycache__/
+*.pyc
+data/runtime/
+data/fused_manifests/
+data/fused_source/*
+!data/fused_source/.gitkeep
+data/results/*.json
+!data/results/.gitkeep
+runs/
+downloads/huggingface/
+
+# large model files / downloads (distributed separately, see MODEL_SETUP.md)
+downloads/
+*.pth
+*.pth.tar
+*.pt
+*.safetensors
+*.ckpt
+*.bin
+*.onnx
+.git_nested_bak/

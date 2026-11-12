@@ -1,0 +1,6 @@
+numpy==1.26.4
+pillow==12.1.0
+torch==2.9.1
+torchvision==0.24.1
+transformers>=4.48
+safetensors>=0.4

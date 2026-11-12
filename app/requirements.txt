@@ -1,0 +1,5 @@
+streamlit==1.63.0
+pillow==12.1.0
+numpy==1.26.4
+opencv-python-headless==4.11.0.86
+jsonschema==4.23.0

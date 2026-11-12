@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ClaimGuard model result",
+  "type": "object",
+  "required": ["model", "score", "risk_label", "elapsed_sec"],
+  "properties": {
+    "model": {"enum": ["trufor", "fused", "recapture"]},
+    "score": {"type": "number", "minimum": 0, "maximum": 1},
+    "risk_label": {"enum": ["LOW", "MEDIUM", "HIGH"]},
+    "mask_path": {"type": ["string", "null"]},
+    "elapsed_sec": {"type": "number", "minimum": 0},
+    "meta": {"type": "object", "additionalProperties": true}
+  },
+  "additionalProperties": false
+}

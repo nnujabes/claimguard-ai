@@ -1,0 +1,3 @@
+numpy==1.26.4
+pillow==12.1.0
+# 공식 환경은 vendor/trufor/TruFor_train_test/trufor_conda.yaml 사용

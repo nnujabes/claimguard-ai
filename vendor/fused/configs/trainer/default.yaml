@@ -1,0 +1,34 @@
+# Training hyperparameters. The effective batch size is
+# batch_size x nproc_per_node x accum = 32 x 2 x 1 = 64.
+epochs: 20
+batch_size: 32
+lr: 3.0e-4
+accum: 1
+weight_decay: 0.0
+num_workers: 8
+seed: 42
+log_every: 50
+verbose: 1
+grad_clip: 1.0
+deterministic: true
+
+# The semantic backbone is frozen. BF16 halves its VRAM footprint without
+# changing the trainable FUSED layers; required for the 8 GB laptop profile.
+frozen_backbone_bf16: false
+keep_epoch_checkpoints: 2
+
+# Loss weights of Eq. (5).
+lambda_seg: 1.0
+lambda_edge: 0.5
+lambda_cls: 1.0
+lambda_moe: 0.01
+lambda_div: 0.01
+
+# Weights used to initialize the forensic backbone.
+checkpoint: weights/sparsevit_pretrained.pth
+
+# Where checkpoints and logs are written.
+out_dir: ???
+
+# Warm-resume from a checkpoint (weights + epoch counter; optimizer restarts).
+resume: null

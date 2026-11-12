@@ -1,0 +1,4 @@
+# Additional inference dependencies for the official Python 3.7 / torch 1.11 environment.
+tqdm==4.64.0
+yacs==0.1.8
+timm==0.5.4

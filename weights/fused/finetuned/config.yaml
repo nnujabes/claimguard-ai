@@ -1,0 +1,84 @@
+model:
+  _target_: fused.model.model.FUSED
+  num_classes: 2
+  dim: 512
+  num_latents: 8
+  num_heads: 8
+  moe_num_experts: 8
+  moe_top_k: 2
+  moe_expansion: 4
+  ffn_type: moe
+  seg_bridge: true
+  enable_sparsevit_branch: true
+  enable_convnext_branch: true
+  convnext_model: convnext_xxlarge.clip_laion2b_soup
+  depth:
+  - 5
+  - 8
+  - 20
+  - 7
+  embed_dim:
+  - 64
+  - 128
+  - 320
+  - 512
+  head_dim: 64
+  img_size: 512
+  s_blocks3:
+  - 8
+  - 4
+  - 2
+  - 1
+  s_blocks4:
+  - 2
+  - 1
+  mlp_ratio: 4
+  qkv_bias: true
+  drop_path_rate: 0.2
+  pretrained_path: null
+dataset:
+  name: opensdi
+  train:
+    _target_: fused.data.opensdi.OpenSDIDataset
+    manifest_path: /home/ai/Daive-CV/claimguard/data/fused_manifests/train.json
+    augment: true
+  val:
+    _target_: fused.data.opensdi.OpenSDIDataset
+    manifest_path: /home/ai/Daive-CV/claimguard/data/fused_manifests/val.json
+    augment: false
+  test:
+    _target_: fused.data.opensdi.OpenSDIDataset
+    manifest_path: /home/ai/Daive-CV/claimguard/data/fused_manifests/test.json
+    augment: false
+trainer:
+  epochs: 30
+  batch_size: 1
+  lr: 3.0e-05
+  accum: 8
+  weight_decay: 0.0001
+  num_workers: 2
+  seed: 42
+  log_every: 25
+  verbose: 1
+  grad_clip: 1.0
+  deterministic: true
+  frozen_backbone_bf16: true
+  keep_epoch_checkpoints: 2
+  lambda_seg: 1.0
+  lambda_edge: 0.5
+  lambda_cls: 1.0
+  lambda_moe: 0.01
+  lambda_div: 0.01
+  checkpoint: /home/ai/Daive-CV/claimguard/weights/fused/fused_opensdi.pth
+  out_dir: /home/ai/Daive-CV/claimguard/runs/fused_fresh_30ep
+  resume: null
+wandb:
+  mode: disabled
+  project: fused
+  entity: null
+  name: null
+  group: null
+  tags: []
+  notes: null
+  watch_model: false
+  watch_log_freq: 200

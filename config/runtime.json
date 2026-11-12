@@ -1,0 +1,9 @@
+{
+  "model_order": ["trufor", "fused", "recapture"],
+  "weights": {"trufor": 0.35, "fused": 0.5, "recapture": 0.15},
+  "roi_threshold": 0.63,
+  "timeout_seconds": 180,
+  "max_files": 20,
+  "max_upload_mb": 20,
+  "supported_types": ["jpg", "jpeg", "png"]
+}

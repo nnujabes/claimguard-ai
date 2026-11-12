@@ -1,0 +1,42 @@
+{
+  "source": "user-provided models.zip",
+  "weights_bundled": true,
+  "models": {
+    "trufor": {
+      "path": "weights/trufor/finetuned/best.pth.tar",
+      "bytes": 287810577,
+      "sha256": "04B873373A033D6093B314059E56CEE0952EBF7557510743FA408E7E2BC05C93",
+      "checkpoint_status": "present",
+      "integration_status": "official repository bundled; requires model Python environment and CUDA",
+      "fallback": "ELA and noise residual"
+    },
+    "fused": {
+      "path": "weights/fused/finetuned/latest.pth",
+      "bytes": 319873408,
+      "sha256": "C83457B742D947F4BCA195D0356E3EA422098EF5159CE445C274EDCDE9C9468E",
+      "checkpoint_status": "present (879 state_dict keys)",
+      "integration_status": "official repository bundled; requires model Python environment and CUDA",
+      "fallback": "gateway deterministic demo score"
+    },
+    "recapture": {
+      "paths": [
+        "weights/recapture/best_screen_detector_backbone.pt",
+        "weights/recapture/best_screen_detector_mlp.pt",
+        "weights/recapture/classes.json"
+      ],
+      "sha256": [
+        "6A9E963DBA8C9ECE822C932FBDC3B501A50CDBA94365B98625B6E0A48A6BE9A0",
+        "73C6656BC7941049DABE3F274C7992D333A792B9CA292701A7AC143110536224",
+        "B0A0FE013E28DE49DEC1ACAF4B7FB5F2DE277180CAC8BE00768A4C24DAAC0F95"
+      ],
+      "checkpoint_status": "head and last two DINOv2 layers present",
+      "integration_status": "DINOv2 base backbone bundled; requires model Python environment and CUDA",
+      "base_backbone": {
+        "path": "downloads/recapture_dinov2/dinov2-with-registers-base/model.safetensors",
+        "bytes": 346358296,
+        "sha256": "7A6F7B3B9FA4B8732E707476A03CD6CDCE210048582F21AAFB7991C17D98E362"
+      },
+      "fallback": "FFT periodicity"
+    }
+  }
+}

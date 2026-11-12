@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="자동차보험 청구 이미지의 위변조 위험을 분석하고 심사 우선순위를 지원합니다.">
+  <title>ClaimGuard Vision</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f172a'/%3E%3Cpath d='M16 5l9 4v6c0 6-3.8 10-9 12-5.2-2-9-6-9-12V9l9-4z' fill='%2306b6d4'/%3E%3Cpath d='M11 16l3 3 7-7' fill='none' stroke='%230f172a' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <button class="brand" id="brandBtn" aria-label="처음 청구 입력 화면으로 이동"><span class="brand-mark">CG</span><span>ClaimGuard <b>Vision</b></span></button>
+    <nav class="process-nav" aria-label="ClaimGuard 업무 프로세스">
+      <button class="nav-btn active" data-process="1" data-view="analysis"><span class="process-index">1</span><span class="process-copy"><b>고객</b><small>청구 신청 · 이미지 제출</small></span></button>
+      <span class="process-arrow" aria-hidden="true">→</span>
+      <button class="nav-btn" data-process="2"><span class="process-index">2</span><span class="process-copy"><b>내부 프로세스</b><small>이미지 처리 · 결과 저장</small></span></button>
+      <span class="process-arrow" aria-hidden="true">→</span>
+      <button class="nav-btn" data-process="3" data-view="claims"><span class="process-index">3</span><span class="process-copy"><b>보험사 직원</b><small>청구 심사 <span class="nav-count" id="claimCount">0</span></small></span></button>
+    </nav>
+    <div class="header-actions"><span class="system-state"><i></i>분석 시스템 정상</span><button class="icon-btn" id="themeBtn" aria-label="테마 전환">◐</button></div>
+  </header>
+
+  <main>
+    <section id="analysisView" class="view active">
+      <div class="page-head">
+        <div class="analysis-heading"><span class="heading-car" aria-hidden="true"><svg viewBox="0 0 180 140" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="heading-body" x1="45" y1="48" x2="119" y2="120" gradientUnits="userSpaceOnUse"><stop stop-color="#83b9f0"/><stop offset=".5" stop-color="#4d86c5"/><stop offset="1" stop-color="#285385"/></linearGradient>
+    <linearGradient id="heading-glass" x1="65" y1="40" x2="98" y2="80" gradientUnits="userSpaceOnUse"><stop stop-color="#daf5ff"/><stop offset="1" stop-color="#8bbfd9"/></linearGradient>
+    <linearGradient id="heading-front" x1="118" y1="76" x2="125" y2="116" gradientUnits="userSpaceOnUse"><stop stop-color="#8cb6de"/><stop offset="1" stop-color="#4778ac"/></linearGradient>
+  </defs>
+  <ellipse cx="92" cy="122" rx="68" ry="8" fill="#020617" opacity=".18"/>
+  <path d="M79 35q3-15-6-23" stroke="#64748b" stroke-width="3" stroke-linecap="round"/>
+  <ellipse cx="42" cy="106" rx="12" ry="17" fill="#17283e"/><ellipse cx="44" cy="106" rx="6" ry="10" fill="#94a3b8"/>
+  <ellipse cx="146" cy="108" rx="12" ry="17" fill="#17283e"/><ellipse cx="148" cy="108" rx="6" ry="10" fill="#94a3b8"/>
+  <path d="M28 80q-1-10 9-14l9-24q3-9 15-10l39-3q13 0 18 11l12 28 24 12q8 4 8 15v13q0 8-12 10l-58 4-57-17q-9-3-9-12Z" fill="url(#heading-body)" stroke="#315781" stroke-width="2" stroke-linejoin="round"/>
+  <path d="m63 38 36-3q10 0 14 9l9 23-52 7Z" fill="url(#heading-glass)" stroke="#4775a3" stroke-width="4" stroke-linejoin="round"/>
+  <path d="m51 40 8-1 5 33-22-7 6-20q1-4 3-5Z" fill="url(#heading-glass)" stroke="#4775a3" stroke-width="3"/>
+  <path d="m73 76 54-6 25 13-58 8Z" fill="#91bae1"/>
+  <path d="m94 91 60-8q7 3 7 12v13q0 7-12 9l-54 4Z" fill="url(#heading-front)"/>
+  <path d="m67 79 3 21M49 77l8 2" stroke="#315781" stroke-width="3" stroke-linecap="round"/>
+  <ellipse cx="127" cy="69" rx="8" ry="5" fill="#39699c"/>
+  <ellipse cx="80" cy="113" rx="13" ry="18" fill="#17283e"/><ellipse cx="82" cy="113" rx="7" ry="11" fill="#a5b6c8"/><ellipse cx="83" cy="111" rx="3" ry="5" fill="#dbe7f1"/>
+  <ellipse cx="107" cy="99" rx="7" ry="8" fill="#edf5f9"/><ellipse cx="108" cy="99" rx="4" ry="5" fill="#fef3c7"/>
+  <ellipse cx="150" cy="94" rx="6" ry="7" fill="#edf5f9"/><ellipse cx="151" cy="94" rx="3" ry="4" fill="#fef3c7"/>
+  <path d="m119 106 17-2" stroke="#27476c" stroke-width="4" stroke-linecap="round"/>
+  <path d="m100 115 51-5" stroke="#cad8e5" stroke-width="5" stroke-linecap="round"/>
+  <path d="m74 42 21-3" stroke="#fff" stroke-opacity=".5" stroke-width="3" stroke-linecap="round"/>
+</svg></span><div><p class="eyebrow">IMAGE FORENSICS WORKSPACE</p><h1 id="analysisHeading">차량 손상 이미지 등록</h1></div></div>
+      </div>
+
+      <div class="stepper" id="stepper" aria-label="분석 단계">
+        <div class="journey-track" aria-hidden="true"><div class="journey-fill" id="journeyFill"></div><div class="journey-car" id="journeyCar"><svg viewBox="0 0 180 140" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="journey-body" x1="45" y1="48" x2="119" y2="120" gradientUnits="userSpaceOnUse"><stop stop-color="#83b9f0"/><stop offset=".5" stop-color="#4d86c5"/><stop offset="1" stop-color="#285385"/></linearGradient>
+    <linearGradient id="journey-glass" x1="65" y1="40" x2="98" y2="80" gradientUnits="userSpaceOnUse"><stop stop-color="#daf5ff"/><stop offset="1" stop-color="#8bbfd9"/></linearGradient>
+    <linearGradient id="journey-front" x1="118" y1="76" x2="125" y2="116" gradientUnits="userSpaceOnUse"><stop stop-color="#8cb6de"/><stop offset="1" stop-color="#4778ac"/></linearGradient>
+  </defs>
+  <ellipse cx="92" cy="122" rx="68" ry="8" fill="#020617" opacity=".18"/>
+  <path d="M79 35q3-15-6-23" stroke="#64748b" stroke-width="3" stroke-linecap="round"/>
+  <ellipse cx="42" cy="106" rx="12" ry="17" fill="#17283e"/><ellipse cx="44" cy="106" rx="6" ry="10" fill="#94a3b8"/>
+  <ellipse cx="146" cy="108" rx="12" ry="17" fill="#17283e"/><ellipse cx="148" cy="108" rx="6" ry="10" fill="#94a3b8"/>
+  <path d="M28 80q-1-10 9-14l9-24q3-9 15-10l39-3q13 0 18 11l12 28 24 12q8 4 8 15v13q0 8-12 10l-58 4-57-17q-9-3-9-12Z" fill="url(#journey-body)" stroke="#315781" stroke-width="2" stroke-linejoin="round"/>
+  <path d="m63 38 36-3q10 0 14 9l9 23-52 7Z" fill="url(#journey-glass)" stroke="#4775a3" stroke-width="4" stroke-linejoin="round"/>
+  <path d="m51 40 8-1 5 33-22-7 6-20q1-4 3-5Z" fill="url(#journey-glass)" stroke="#4775a3" stroke-width="3"/>
+  <path d="m73 76 54-6 25 13-58 8Z" fill="#91bae1"/>
+  <path d="m94 91 60-8q7 3 7 12v13q0 7-12 9l-54 4Z" fill="url(#journey-front)"/>
+  <path d="m67 79 3 21M49 77l8 2" stroke="#315781" stroke-width="3" stroke-linecap="round"/>
+  <ellipse cx="127" cy="69" rx="8" ry="5" fill="#39699c"/>
+  <ellipse cx="80" cy="113" rx="13" ry="18" fill="#17283e"/><ellipse cx="82" cy="113" rx="7" ry="11" fill="#a5b6c8"/><ellipse cx="83" cy="111" rx="3" ry="5" fill="#dbe7f1"/>
+  <ellipse cx="107" cy="99" rx="7" ry="8" fill="#edf5f9"/><ellipse cx="108" cy="99" rx="4" ry="5" fill="#fef3c7"/>
+  <ellipse cx="150" cy="94" rx="6" ry="7" fill="#edf5f9"/><ellipse cx="151" cy="94" rx="3" ry="4" fill="#fef3c7"/>
+  <path d="m119 106 17-2" stroke="#27476c" stroke-width="4" stroke-linecap="round"/>
+  <path d="m100 115 51-5" stroke="#cad8e5" stroke-width="5" stroke-linecap="round"/>
+  <path d="m74 42 21-3" stroke="#fff" stroke-opacity=".5" stroke-width="3" stroke-linecap="round"/>
+</svg></div></div>
+        <button class="step active" data-step="1"><span>1</span><b>청구 입력</b></button><i></i>
+        <button class="step" data-step="2"><span>2</span><b>이미지 포렌식</b></button><i></i>
+        <button class="step" data-step="3"><span>3</span><b>결과 검토</b></button><i></i>
+        <button class="step" data-step="4"><span>4</span><b>저장</b></button>
+      </div>
+
+      <section class="workspace" id="uploadStage">
+        <div class="form-panel">
+          <div class="section-title"><span>01</span><div><h2>고객정보</h2><p>청구 접수를 위한 고객 정보 및 사고 경위를 입력해 주세요.</p></div></div>
+          <div class="row"><label>이름<input id="customerName" type="text" placeholder="예: 홍길동" autocomplete="name" required></label><label>생년월일<input id="customerBirth" type="date" autocomplete="bday"></label></div>
+          <div class="row"><label>연락처<input id="customerPhone" type="text" placeholder="예: 010-1234-5678" inputmode="tel" autocomplete="tel" required></label><label>사고일자<input id="accidentDate" type="date"></label></div>
+          <label>사고원인 및 경위<textarea id="accidentCause" rows="3" placeholder="예: 주차장에서 후진 중 기둥에 좌측 범퍼를 충돌함"></textarea></label>
+          <div hidden aria-hidden="true"><input id="claimId" type="hidden"><input id="claimAmount" type="hidden" value="0"><select id="channel"><option value="mobile">모바일 앱</option></select></div>
+          <div class="privacy-note"><b>개인정보 보호</b><span>이미지는 이 앱의 분석 서버로 전송되어 세 모델에서 처리됩니다. 업로드 파일과 분석 결과는 서버에 저장됩니다.</span></div>
+        </div>
+        <div class="upload-panel">
+          <div class="section-title"><span>02</span><div><h2>사고 이미지</h2><p id="uploadRules">JPEG 또는 PNG · 이미지당 20MB · 최대 20장 / 전체 100MB</p></div></div>
+          <label class="dropzone" id="dropzone">
+            <div class="upload-car" aria-hidden="true"><svg viewBox="0 0 180 140" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="upload-body" x1="45" y1="48" x2="119" y2="120" gradientUnits="userSpaceOnUse"><stop stop-color="#83b9f0"/><stop offset=".5" stop-color="#4d86c5"/><stop offset="1" stop-color="#285385"/></linearGradient>
+    <linearGradient id="upload-glass" x1="65" y1="40" x2="98" y2="80" gradientUnits="userSpaceOnUse"><stop stop-color="#daf5ff"/><stop offset="1" stop-color="#8bbfd9"/></linearGradient>
+    <linearGradient id="upload-front" x1="118" y1="76" x2="125" y2="116" gradientUnits="userSpaceOnUse"><stop stop-color="#8cb6de"/><stop offset="1" stop-color="#4778ac"/></linearGradient>
+  </defs>
+  <ellipse cx="92" cy="122" rx="68" ry="8" fill="#020617" opacity=".18"/>
+  <path d="M79 35q3-15-6-23" stroke="#64748b" stroke-width="3" stroke-linecap="round"/>
+  <ellipse cx="42" cy="106" rx="12" ry="17" fill="#17283e"/><ellipse cx="44" cy="106" rx="6" ry="10" fill="#94a3b8"/>
+  <ellipse cx="146" cy="108" rx="12" ry="17" fill="#17283e"/><ellipse cx="148" cy="108" rx="6" ry="10" fill="#94a3b8"/>
+  <path d="M28 80q-1-10 9-14l9-24q3-9 15-10l39-3q13 0 18 11l12 28 24 12q8 4 8 15v13q0 8-12 10l-58 4-57-17q-9-3-9-12Z" fill="url(#upload-body)" stroke="#315781" stroke-width="2" stroke-linejoin="round"/>
+  <path d="m63 38 36-3q10 0 14 9l9 23-52 7Z" fill="url(#upload-glass)" stroke="#4775a3" stroke-width="4" stroke-linejoin="round"/>
+  <path d="m51 40 8-1 5 33-22-7 6-20q1-4 3-5Z" fill="url(#upload-glass)" stroke="#4775a3" stroke-width="3"/>
+  <path d="m73 76 54-6 25 13-58 8Z" fill="#91bae1"/>
+  <path d="m94 91 60-8q7 3 7 12v13q0 7-12 9l-54 4Z" fill="url(#upload-front)"/>
+  <path d="m67 79 3 21M49 77l8 2" stroke="#315781" stroke-width="3" stroke-linecap="round"/>
+  <ellipse cx="127" cy="69" rx="8" ry="5" fill="#39699c"/>
+  <ellipse cx="80" cy="113" rx="13" ry="18" fill="#17283e"/><ellipse cx="82" cy="113" rx="7" ry="11" fill="#a5b6c8"/><ellipse cx="83" cy="111" rx="3" ry="5" fill="#dbe7f1"/>
+  <ellipse cx="107" cy="99" rx="7" ry="8" fill="#edf5f9"/><ellipse cx="108" cy="99" rx="4" ry="5" fill="#fef3c7"/>
+  <ellipse cx="150" cy="94" rx="6" ry="7" fill="#edf5f9"/><ellipse cx="151" cy="94" rx="3" ry="4" fill="#fef3c7"/>
+  <path d="m119 106 17-2" stroke="#27476c" stroke-width="4" stroke-linecap="round"/>
+  <path d="m100 115 51-5" stroke="#cad8e5" stroke-width="5" stroke-linecap="round"/>
+  <path d="m74 42 21-3" stroke="#fff" stroke-opacity=".5" stroke-width="3" stroke-linecap="round"/>
+</svg></div>
+            <input id="fileInput" type="file" accept="image/jpeg,image/png" multiple>
+            <span class="upload-icon">↥</span><strong>이미지를 끌어놓거나 선택하세요</strong><small>여러 장을 선택하면 하나의 청구건에 함께 저장됩니다.</small><em>파일 선택</em>
+          </label>
+          <p id="fileSummary" class="file-summary" role="status" aria-live="polite">첨부된 이미지가 없습니다.</p>
+          <div id="fileList" class="file-list" aria-label="첨부된 이미지 목록"></div>
+          <button class="primary" id="analyzeBtn" disabled>신청하기 <span>→</span></button>
+        </div>
+      </section>
+
+      <section class="analyzing hidden" id="analyzingStage" aria-live="polite">
+        <div class="scan-wrap"><img id="scanImage" alt="분석 중인 업로드 이미지"><span class="scan-line"></span></div>
+        <div><p class="eyebrow">SEQUENTIAL GPU PIPELINE</p><h2>이미지의 보이지 않는 흔적을 확인하고 있습니다</h2><p id="analysisStatus">TruFor가 편집 경계를 분석 중입니다.</p><div class="pipeline"><div class="model-task active"><span>01</span><b>TruFor</b><small>전통 편집 흔적</small></div><div class="model-task"><span>02</span><b>FUSED</b><small>AI 인페인팅</small></div><div class="model-task"><span>03</span><b>Recapture</b><small>재촬영 패턴</small></div></div></div>
+      </section>
+
+      <section class="results hidden" id="resultStage">
+        <div class="result-toolbar"><label>분석 이미지<select id="resultPicker"></select></label><div class="generated-claim-meta"><div class="generated-claim-id"><span>자동 생성 청구번호</span><b id="generatedClaimId">—</b></div><div class="generated-claim-id"><span>자동 산정 청구금액</span><b id="generatedClaimAmount">—</b></div></div><div class="result-toolbar-actions"><div class="result-navigation" id="resultNavigation" aria-label="분석 이미지 이동"><button class="secondary compact" id="previousResultBtn" type="button">이전</button><span id="resultPosition" aria-live="polite">1 / 1</span><button class="secondary compact" id="nextResultBtn" type="button">다음</button></div><button class="secondary" id="downloadResultsBtn">모델 결과 JSON 다운로드</button></div></div>
+        <div class="verdict" id="verdictCard"><div><p class="eyebrow">FUSION DECISION</p><h2 id="verdictTitle">이미지 조작 가능성이 높습니다</h2><p id="verdictText"></p></div><div class="risk-ring" id="riskRing"><strong id="finalScore">0%</strong><span>조작 가능성</span></div></div>
+        <div class="result-grid">
+          <article class="visual-card"><div class="card-head"><div><h3>의심 영역</h3><p>FUSED 세그멘테이션 결과</p></div><div class="segmented"><button data-overlay="original">원본</button><button class="active" data-overlay="heatmap">Heatmap</button></div></div><div class="image-stage"><img id="resultImage" alt="분석 이미지"><span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span></div><p class="caption" id="overlayNote"></p></article>
+          <div class="score-column"><article class="score-card"><div class="card-head"><div><h3>모델별 탐지 신호</h3><p>각 점수는 서로 다른 조작 흔적을 나타냅니다.</p></div></div><div id="modelScores"></div></article><article class="decision-card"><div class="decision-line"><span>조작 가능성</span><b id="fusionValue">0%</b></div><div class="threshold-line"><span>ROI 임계값</span><b>63%</b></div><div class="scale"><i id="thresholdMark"></i><span id="scoreMark"></span></div><div class="route" id="routeResult"></div></article></div>
+        </div>
+        <div class="result-actions"><button class="secondary" id="newAnalysisBtn">다른 이미지 분석</button><button class="primary" id="saveBtn">포렌식 결과 저장 <span>→</span></button></div>
+      </section>
+    </section>
+
+    <section id="claimsView" class="view">
+      <div class="page-head"><div><p class="eyebrow">CLAIMS REVIEW CONSOLE</p><h1>청구 심사</h1><p>위험도가 높은 청구부터 확인하고 저장된 분석 근거를 검토합니다.</p></div><div class="page-head-actions"><button class="threshold-card threshold-button" id="roiSettingsBtn" aria-label="ROI 임계값 설정 열기"><span>현재 ROI 임계값</span><strong>63%</strong><small>ROI 기준 설정 · 클릭하여 변경</small></button></div></div>
+      <div class="kpis" id="kpis"></div>
+      <section class="claim-surface">
+        <div class="toolbar"><div class="filters" id="filters"><button class="active" data-filter="all">전체</button><button data-filter="review">검토대상</button><button data-filter="normal">정상추정</button></div><label class="search"><span>⌕</span><input id="searchInput" placeholder="청구번호 또는 파일명 검색"></label></div>
+        <div class="claim-table"><div class="claim-row table-head"><span>청구번호</span><button class="column-sort" data-sort="amount">청구금액 <i>↕</i></button><span>사진</span><button class="column-sort" data-sort="date">접수일 <i>↕</i></button><button class="column-sort active" data-sort="risk">위험도 <i>↓</i></button><span>분석 신호</span><span>점검결과</span></div><div id="claimRows"></div></div>
+        <div class="claim-pagination" id="claimPagination" aria-label="청구건 페이지 이동"></div>
+      </section>
+    </section>
+
+    <section id="claimDetailView" class="view"><button class="back" id="backClaimsBtn">← 청구 목록</button><div id="claimDetail"></div></section>
+    <section id="imageDetailView" class="view"><button class="back" id="backImageClaimBtn">← 청구건 사진 목록</button><div id="imageDetail"></div></section>
+    <section id="roiSettingsView" class="view">
+      <button class="back" id="backRoiBtn">← 청구 심사</button>
+      <div class="page-head"><div><p class="eyebrow">ROI THRESHOLD SETTINGS</p><h1>ROI 기반 임계값 설정</h1><p>확정된 실제 조작 여부와 과거 모델 점수를 바탕으로 기대 손익이 가장 높은 임계값을 계산합니다.</p></div></div>
+      <section class="roi-surface">
+        <div class="roi-threshold-controls">
+          <article class="roi-current-threshold"><span>현재 임계값</span><strong id="roiCurrentThreshold">63.0%</strong><small>새 이미지 분석에 적용되는 ROI Threshold</small></article>
+          <article class="roi-direct-threshold"><div><span>임계값 직접 설정</span><small>0~100 사이의 백분율을 입력하세요.</small></div><label><input id="roiDirectThreshold" type="number" min="0" max="100" step="0.1" aria-label="직접 설정할 임계값"><b>%</b></label><button class="primary compact" id="roiDirectApplyBtn" type="button">직접 적용</button></article>
+        </div>
+        <div class="roi-inputs"><label>1건당 검토비용 (원)<input id="roiReviewCost" type="number" min="0" step="1000" value="10000"></label><label>조작건 미탐지 예상손실 비율<input id="roiFraudLossRate" type="number" min="0" max="100" step="1" value="100"><small>청구액 대비 비율(%)입니다.</small></label></div>
+        <div class="roi-average-control"><div><span>ROI 계산에 사용할 평균 청구액</span><b id="roiAverageAmount">—</b><small id="roiAverageSource">저장된 유효 청구건에서 자동 계산</small></div><button class="secondary" id="roiAverageModeBtn" type="button">평균 청구액 직접 입력하기</button></div>
+        <label class="roi-manual-average hidden" id="roiManualAverageLabel">평균 청구액 직접 입력 (원)<input id="roiManualAverage" type="number" min="1" step="10000" placeholder="예: 2000000"><small>직접 입력한 금액이 자동 계산 평균보다 우선 적용됩니다.</small></label>
+        <div class="roi-explanation"><b>계산 기준</b><span>저장된 유효 청구건의 평균 청구액을 사용합니다. 검토 시 건당 검토비용, 미검토 조작건은 평균 청구액 × 예상손실 비율을 비용으로 계산합니다.</span></div>
+        <div class="roi-summary" id="roiSummary"></div>
+        <div class="roi-table-wrap"><table class="roi-table"><thead><tr><th>청구번호</th><th>대표 이미지</th><th>통합 점수</th><th>실제 조작 여부</th></tr></thead><tbody id="roiRows"></tbody></table></div>
+        <div class="roi-actions"><button class="secondary" id="roiCalculateBtn">ROI 임계값 계산</button><button class="primary" id="roiApplyBtn" disabled>계산한 임계값 적용 <span>→</span></button></div>
+      </section>
+    </section>
+  </main>
+  <div class="completion-modal" id="inspectionCompletionModal" role="dialog" aria-modal="true" aria-labelledby="inspectionCompletionTitle" hidden>
+    <div class="completion-backdrop"></div>
+    <section class="completion-dialog">
+      <div class="completion-icon" id="inspectionCompletionIcon" aria-hidden="true"></div>
+      <h2 id="inspectionCompletionTitle"></h2>
+      <div class="completion-actions">
+        <button class="secondary" id="completionBackBtn" type="button">목록으로 돌아가기</button>
+      </div>
+    </section>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="claim_store.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
